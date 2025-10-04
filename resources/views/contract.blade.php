@@ -5,7 +5,7 @@
     <title>Договор</title>
 </head>
 <body>
-<h2>{{$contract ? "Список услуг по договору № " .$contract->contract_number : "Неверный номер договора"}}</h2>
+<h2>{{$contract ? "Список услуг по договору № " .$contract->contract_number : "Неверный id договора"}}</h2>
 @if($contract)
     <table border="1">
         <tr>

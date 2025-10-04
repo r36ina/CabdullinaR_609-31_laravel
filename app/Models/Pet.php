@@ -19,14 +19,4 @@ class Pet extends Model
     }
 
     protected $table = 'pet';
-    protected $fillable = [
-        'med_book',
-        'user_id',
-        'breed',
-        'nickname',
-        'date_of_birth',
-        'gender',
-        'created_at',
-        'updated_at'
-    ];
 }

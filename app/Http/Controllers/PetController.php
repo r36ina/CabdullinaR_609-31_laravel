@@ -33,10 +33,10 @@ class PetController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $med_book)
+    public function show(string $id)
     {
         return view('pet', [
-            'pet' => Pet::all()->where('med_book', $med_book)->first()
+            'pet' => Pet::all()->where('id', $id)->first()
         ]);
 
     }

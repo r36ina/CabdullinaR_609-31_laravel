@@ -35,15 +35,15 @@ class ContractController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $contract_number)
+    public function show(string $id)
     {
         $total = DB::table('list_services')
             ->selectRaw('sum(contract_price) as total')
-            ->where('contract_number', $contract_number)
+            ->where('contract_id', $id)
             ->first();
 
         return view('contract', [
-            'contract' => Contract::all()->where('contract_number', $contract_number)->first(),
+            'contract' => Contract::all()->where('id', $id)->first(),
             'total' => $total
         ]);
     }

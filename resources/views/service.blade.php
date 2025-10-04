@@ -5,7 +5,7 @@
     <title>Услуга</title>
 </head>
 <body>
-<h2>{{$service ? "Список договоров, в которые входит услуга ".$service->name : "Неверное название услуги"}}</h2>
+<h2>{{$service ? "Список договоров, в которые входит услуга ".$service->name : "Неверное id услуги"}}</h2>
 @if($service)
     <table border="1">
         <tr>
@@ -16,7 +16,7 @@
         @foreach($service->contracts as $contract)
             <tr>
                 <td>{{$contract->pivot->id}}</td>
-                <td>{{$contract->pivot->contract_number}}</td>
+                <td>{{$contract->contract_number}}</td>
                 <td>{{$contract->conclusion_date}}</td>
             </tr>
         @endforeach

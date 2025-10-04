@@ -35,10 +35,10 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $name)
+    public function show(string $id)
     {
         return view('service', [
-            'service' => Service::all()->where('name', $name)->first()
+            'service' => Service::all()->where('id', $id)->first()
         ]);
     }
 

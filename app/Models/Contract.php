@@ -12,9 +12,7 @@ class Contract extends Model
     use HasFactory;
     public function services(): BelongsToMany
     {
-        return $this->belongsToMany(Service::class, 'list_services',
-            'contract_number', 'name_service',
-            'contract_number', 'name'
+        return $this->belongsToMany(Service::class, 'list_services'
         )->withPivot('contract_price');
     }
     protected $table = 'contract';
