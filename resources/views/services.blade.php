@@ -8,8 +8,7 @@
 <h2>Список предоставляемых услуг</h2>
 <table border="1">
     <thead>
-    <td>id</td>
-    <td>Названеи</td>
+    <td>Название</td>
     <td>Описание</td>
     <td>Цена</td>
     <td>Кабинет</td>
@@ -18,7 +17,6 @@
     </thead>
     @foreach($services as $service)
         <tr>
-            <td>{{$service->id}}</td>
             <td>{{$service->name}}</td>
             <td>{{$service->description}}</td>
             <td>{{$service->price}}</td>
@@ -31,6 +29,7 @@
         </tr>
     @endforeach
 </table>
+{{$services->links('vendor.pagination.default')}}
 <a href="{{url('services/create')}}" style="text-decoration: none; ">Добавить услугу</a>
 </body>
 </html>
