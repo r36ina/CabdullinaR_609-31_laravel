@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Pet</title>
+    <title>Питомец</title>
 </head>
 <body>
 <h2>{{$pet ? "Информация о владельце питомца - " .$pet->nickname ." (" .$pet->med_book .")" : "Неверный id питомца"}}</h2>

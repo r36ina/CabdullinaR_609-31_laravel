@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Users</title>
+    <title>Клиенты</title>
 </head>
 <body>
 <h2>Список клиентов</h2>

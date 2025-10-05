@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User</title>
+    <title>Питомцы</title>
 </head>
 <body>
 <h2>{{$user ? "Список питомцев клиента " .$user->first_name  ." (" .$user->phone .")" : "Неверный id клиента"}}</h2>

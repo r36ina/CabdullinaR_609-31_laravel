@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Pets</title>
+    <title>Питомцы</title>
 </head>
 <body>
 <h2>Список питомцев клиентов</h2>
