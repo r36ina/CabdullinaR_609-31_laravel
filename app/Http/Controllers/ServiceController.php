@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use App\Models\ServicesCategory;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+
 
 class ServiceController extends Controller
 {
@@ -18,6 +20,10 @@ class ServiceController extends Controller
 
     public function create()
     {
+        if (! Gate::allows('create-service')) {
+            return redirect('/error')->with('message',
+                'У вас нет разрешения на добавление новой записи');
+        }
         return view('service_create', [
             'categories' => ServicesCategory::all()
         ]);
@@ -46,6 +52,11 @@ class ServiceController extends Controller
 
     public function edit(string $id)
     {
+        if (! Gate::allows('update-service', Service::all()->where('id', $id)->first())) {
+            return redirect('/error')->with('message',
+                'У вас нет разрешения на редактирование услуги номер ' .$id);
+        }
+
         return view('service_edit', [
             'service' => Service::all()->where('id', $id)->first(),
             'categories' => ServicesCategory::all()
@@ -73,6 +84,10 @@ class ServiceController extends Controller
 
     public function destroy(string $id)
     {
+        if (! Gate::allows('destroy-service', Service::all()->where('id', $id)->first())) {
+            return redirect('/error')->with('message',
+                'У вас нет разрешения на удаление услуги номер ' .$id);
+        }
         Service::destroy($id);
         return redirect('/services');
     }
