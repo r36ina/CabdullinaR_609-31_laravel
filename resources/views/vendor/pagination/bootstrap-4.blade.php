@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-    <nav>
+    <nav xmlns="http://www.w3.org/1999/html">
         <ul class="pagination">
             {{-- Previous Page Link --}}
             @if ($paginator->onFirstPage())
@@ -43,4 +43,14 @@
             @endif
         </ul>
     </nav>
+    <div class="mb-3">
+        <form method="get" action="{{url('services')}}" class="d-flex align-items-center gap-2">
+            <select name="perPage" class="form-select w-auto d-inline">
+                <option value="4" @if($paginator->perPage() == 4) selected @endif>4</option>
+                <option value="6" @if($paginator->perPage() == 6) selected @endif>6</option>
+                <option value="8" @if($paginator->perPage() == 8) selected @endif>8</option>
+            </select>
+            <button type="submit" class="btn btn-outline-primary">Изменить</button>
+        </form>
+    </div>
 @endif

@@ -43,13 +43,4 @@
             @endif
         </ul>
     </nav>
-    Элементов на странице:
-    <form method="get" action="{{url('services')}}">
-        <select name="perpage">
-            <option value="4" @if($paginator->perPage() == 4) selected @endif>4</option>
-            <option value="6" @if($paginator->perPage() == 6) selected @endif>6</option>
-            <option value="8" @if($paginator->perPage() == 8) selected @endif>8</option>
-        </select>
-        <input type="submit" value="Изменить">
-    </form>
 @endif

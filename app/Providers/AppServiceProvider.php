@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     }
     public function boot(): void
     {
-        Paginator::defaultView('pagination::default');
+        Paginator::useBootstrapFour();
         Gate::define('destroy-service', function (User $user) {
             return $user->is_admin;
         });

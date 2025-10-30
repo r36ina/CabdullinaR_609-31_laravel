@@ -12,9 +12,11 @@ class ServiceController extends Controller
 {
     public function index(Request $request)
     {
-        $perpage = $request->perpage ?? 4;
+        $perpage = request('perPage', 4);
         return view('services', [
-            'services' => Service::paginate($perpage)->withQueryString(),
+            'services' => Service::paginate($perpage)->appends([
+                'perPage' => $perpage
+            ]),
         ]);
     }
 
@@ -89,6 +91,6 @@ class ServiceController extends Controller
                 'У вас нет разрешения на удаление услуги номер ' .$id);
         }
         Service::destroy($id);
-        return redirect('/services');
+        return redirect('/services')->with('success', 'Услуга успешно удалена');
     }
 }

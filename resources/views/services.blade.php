@@ -1,35 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Услуги</title>
-</head>
-<body>
-<h2>Список предоставляемых услуг</h2>
-<table border="1">
-    <thead>
-    <td>Название</td>
-    <td>Описание</td>
-    <td>Цена</td>
-    <td>Кабинет</td>
-    <td>Категория</td>
-    <td>Действия</td>
-    </thead>
-    @foreach($services as $service)
-        <tr>
-            <td>{{$service->name}}</td>
-            <td>{{$service->description}}</td>
-            <td>{{$service->price}}</td>
-            <td>{{$service->cabinet}}</td>
-            <td>{{$service->category->name}}</td>
-            <td>
-                <a href="{{url('services/edit/' .$service->id)}}">Редактировать</a>
-                <a href="{{url('services/destroy/' .$service->id)}}">Удалить</a>
-            </td>
-        </tr>
-    @endforeach
-</table>
-{{$services->links('vendor.pagination.default')}}
-<a href="{{url('services/create')}}" style="text-decoration: none; ">Добавить услугу</a>
-</body>
-</html>
+@extends('layout')
+@section('content')
+    <div class="container">
+    <div class="row">
+        @foreach($services as $service)
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card border-0 h-100 shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title">{{$service->name}}</h5>
+                        <p class="card-text text-muted small">{{$service->description}}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-success fw-bold fs-6">{{$service->price}} р.</div>
+                            <div class="text-muted">Каб. {{$service->cabinet}}</div>
+                        </div>
+                        <div class="fs-6 mt-2">{{$service->category->name}}</div>
+                    </div>
+                    @if(Auth::user() && Auth::user()->is_admin)
+                        <div class="card-footer bg-transparent border-top-0">
+                            <a href="{{url('services/edit/' .$service->id)}}" class="btn btn-sm btn-outline-primary">Редактировать</a>
+                            <a href="{{url('services/destroy/' .$service->id)}}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        @endforeach
+    </div>
+    @if(Auth::user() && Auth::user()->is_admin)
+        <div class="text-end mb-3">
+            <a href="{{url('services/create')}}" class="btn btn-primary">Добавить услугу</a>
+        </div>
+    @endif
+    <div class="d-flex justify-content-center gap-3">
+        {{$services->links()}}
+    </div>
+</div>
+@endsection
