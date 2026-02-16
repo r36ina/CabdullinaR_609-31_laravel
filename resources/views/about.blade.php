@@ -10,7 +10,7 @@
                 Важным преимуществом является собственная лаборатория — мы выполняем
                 анализы быстро и точно, не теряя времени на отправку в сторонние организации.</p>
             <div class="d-flex align-items-center" style="justify-content: space-between;">
-                <img src="{{asset('images/img8.png')}}" style="object-fit: cover; margin-right: 30px" alt="">
+                <img src="{{'images/img8.png'}}" style="object-fit: cover; margin-right: 30px" alt="">
                 <div class="col">
                     <h5 class="mb-3">Контакты:</h5>
                     <div class="d-flex align-items-center gap-2">
