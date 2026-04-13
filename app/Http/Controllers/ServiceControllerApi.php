@@ -9,7 +9,7 @@ class ServiceControllerApi extends Controller
 {
     public function index()
     {
-        return response(Service::all());
+        return response(Service::with('category')->get());
     }
 
     /**
