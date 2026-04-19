@@ -7,9 +7,16 @@ use Illuminate\Http\Request;
 
 class MedWorkerControllerApi extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return response(MedWorker::all());
+        return response(MedWorker::limit($request->perpage ?? 5)
+            ->offset(($request->perpage ?? 5) * ($request->page ?? 0))
+            ->get());
+    }
+
+    public function total()
+    {
+        return response(MedWorker::all()->count());
     }
 
     /**

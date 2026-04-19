@@ -11,9 +11,11 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/services/{id}', [ServiceControllerApi::class, 'show']);
 Route::get('/services', [ServiceControllerApi::class, 'index']);
+Route::get('/services_total', [ServiceControllerApi::class, 'total']);
 
 Route::get('/medworkers', [MedWorkerControllerApi::class, 'index']);
 Route::get('/medworkers/{id}', [MedWorkerControllerApi::class, 'show']);
+Route::get('/medworkers_total', [ServiceControllerApi::class, 'total']);
 
 Route::get('/pets', [PetControllerApi::class, 'index']);
 Route::get('/pets/{id}', [PetControllerApi::class, 'show']);
