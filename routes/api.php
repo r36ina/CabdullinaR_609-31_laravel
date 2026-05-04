@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceControllerApi;
 use App\Http\Controllers\MedWorkerControllerApi;
+use App\Http\Controllers\ServicesCategoryControllerApi;
 use Illuminate\Http\Request;
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -20,9 +21,13 @@ Route::get('/medworkers_total', [MedworkerControllerApi::class, 'total']);
 Route::get('/pets', [PetControllerApi::class, 'index']);
 Route::get('/pets/{id}', [PetControllerApi::class, 'show']);
 
+Route::get('/categories', [ServicesCategoryControllerApi::class, 'index']);
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
    Route::get('/logout', [AuthController::class, 'logout']);
+   Route::post('/service', [ServiceControllerApi::class, 'store']);
+
 });
