@@ -29,5 +29,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
    Route::get('/logout', [AuthController::class, 'logout']);
    Route::post('/service', [ServiceControllerApi::class, 'store']);
+   Route::delete('/service/{id}', [ServiceControllerApi::class, 'destroy']);
+   Route::post('/service/{id}', [ServiceControllerApi::class, 'update']);
 
 });

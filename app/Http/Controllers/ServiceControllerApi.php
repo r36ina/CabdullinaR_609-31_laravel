@@ -6,6 +6,7 @@ use App\Models\Service;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Exception;
 
 class ServiceControllerApi extends Controller
@@ -15,12 +16,13 @@ class ServiceControllerApi extends Controller
         return response(Service::with('category')
             ->limit($request->perpage ?? 3)
             ->offset(($request->perpage ?? 3) * ($request->page ?? 0))
+            ->where('name', 'ILIKE', '%' . $request->search . '%')
             ->get());
     }
 
-    public function total()
+    public function total(Request $request)
     {
-        return response(Service::all()->count());
+        return response(Service::where('name', 'ILIKE', '%' . $request->search . '%')->count());
     }
 
     /**
@@ -74,7 +76,70 @@ class ServiceControllerApi extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if (! Gate::allows('update-service')) {
+            return response()->json([
+                'code' => 1,
+                'message' => 'У вас нет прав на редактирование услуги',
+            ]);
+        }
+        $validated = $request->validate([
+            'name' => 'required|max:255|unique:services,name,' . $id,
+            'description' => 'required|max:255',
+            'category_id' => 'required',
+            'price' => 'required',
+            'image' => 'nullable|file|image|max:2048',
+        ]);
+        try {
+            $service = Service::findOrFail($id);
+            if ($request->input('delete_image') === 'true' && !$request->hasFile('image')) {
+                if ($service->image_url) {
+                    $path = parse_url($service->image_url, PHP_URL_PATH);
+                    $oldPath = ltrim($path, '/');
+                    if (Storage::disk('s3')->exists($oldPath)) {
+                        Storage::disk('s3')->delete($oldPath);
+                    }
+                    $service->image_url = null;
+                }
+            }
+            $service->name = $validated['name'];
+            $service->description = $validated['description'];
+            $service->price = $validated['price'];
+            $service->category_id = $validated['category_id'];
+            if ($request->hasFile('image')) {
+                try {
+                    if ($service->image_url) {
+                        $path = parse_url($service->image_url, PHP_URL_PATH);
+                        $oldPath = ltrim($path, '/');
+                        if (Storage::disk('s3')->exists($oldPath)) {
+                            Storage::disk('s3')->delete($oldPath);
+                        }
+                    }
+                    $file = $request->file('image');
+                    $fileName = rand(1, 1000000).'_'.$file->getClientOriginalName();
+                    $path = Storage::disk('s3')->putFileAs('services_img', $file, $fileName);
+                    $service->image_url = Storage::disk('s3')->url($path);
+
+                } catch (Exception $ex) {
+                    return response()->json([
+                        'message' => 'Ошибка загрузки файла в s3 хранилище',
+                        'error' => [
+                            'code' => $ex->getCode(),
+                            'message' => $ex->getMessage(),
+                        ]
+                    ], 500);
+                }
+            }
+            $service->save();
+            return response()->json([
+                'code' => 0,
+                'message' => 'Услуга успешно обновлена'
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                'code' => 2,
+                'message' => 'Ошибка при обновлении: ' . $ex->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -82,6 +147,30 @@ class ServiceControllerApi extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        if (! Gate::allows('destroy-service')) {
+            return response()->json([
+                'code' => 1,
+                'message' => 'У вас нет прав на удаление услуги'
+            ], 401);
+        }
+        $service = Service::find($id);
+        if (!$service) {
+            return response()->json([
+                'code' => 1,
+                'error' => 'Услуга не найдена'
+            ]);
+        }
+        if ($service->image_url) {
+            $path = parse_url($service->image_url, PHP_URL_PATH);
+            $oldPath = ltrim($path, '/');
+            if (Storage::disk('s3')->exists($oldPath)) {
+                Storage::disk('s3')->delete($oldPath);
+            }
+        }
+        Service::destroy($id);
+        return response()->json([
+            'code' => 0,
+            'message' => 'Услуга успешна удалена'
+        ]);
     }
 }
