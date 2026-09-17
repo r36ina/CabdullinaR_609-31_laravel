@@ -22,7 +22,7 @@ class ServiceControllerApi extends Controller
 
     public function total(Request $request)
     {
-        return response(Service::where('name', 'ILIKE', '%' . $request->search . '%')->count());
+        return response(Service::where('name', 'LIKE', '%' . $request->search . '%')->count());
     }
 
     /**
