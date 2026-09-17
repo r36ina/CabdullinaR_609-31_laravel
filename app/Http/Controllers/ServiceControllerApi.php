@@ -16,7 +16,7 @@ class ServiceControllerApi extends Controller
         return response(Service::with('category')
             ->limit($request->perpage ?? 3)
             ->offset(($request->perpage ?? 3) * ($request->page ?? 0))
-            ->where('name', 'ILIKE', '%' . $request->search . '%')
+            ->where('name', 'LIKE', '%' . $request->search . '%')
             ->get());
     }
 
