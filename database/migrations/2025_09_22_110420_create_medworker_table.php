@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('job_title');
             $table->string('email')->unique();
             $table->string('phone')->unique();
+            $table->string('specialization')->nullable();
             $table->timestamps();
 
         });
