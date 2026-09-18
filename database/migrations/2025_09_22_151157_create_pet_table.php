@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pet', function (Blueprint $table) {
-            $table->string('med_book')->primary();
+            $table->id();
+            $table->string('med_book')->unique();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('breed');

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->unsignedInteger('price');
             $table->integer('cabinet');
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->timestamps();
         });
     }

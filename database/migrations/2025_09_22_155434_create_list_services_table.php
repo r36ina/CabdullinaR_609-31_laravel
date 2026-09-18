@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('list_services', function (Blueprint $table) {
             $table->id();
-            $table->string('contract_number');
-            $table->foreign('contract_number')->references('contract_number')->on('contract');
-            $table->string('name_service');
-            $table->foreign('name_service')->references('name')->on('services');
+            $table->unsignedBigInteger('contract_id');
+            $table->foreign('contract_id')->references('id')->on('contract');
+            $table->unsignedBigInteger('service_id');
+            $table->foreign('service_id')->references('id')->on('services');
             $table->unsignedInteger('contract_price');
+            $table->timestamps();
         });
     }
 

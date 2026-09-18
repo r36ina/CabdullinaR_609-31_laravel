@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('contract', function (Blueprint $table) {
-            $table->string('contract_number')->primary();
+            $table->id();
+            $table->string('contract_number')->unique();
             $table->date('conclusion_date');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
